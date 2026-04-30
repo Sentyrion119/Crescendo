@@ -33,7 +33,7 @@ function buildVariations(raw) {
 async function fetchSearch(q) {
   const url = `${BASE}/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=20&newsCount=0&enableFuzzyQuery=true&lang=en-US`
   const res = await fetch(url)
-  if (!res.ok) return []
+  if (!res.ok) throw new Error(`Erreur Yahoo Finance (${res.status})`)
   const data = await res.json()
   return (data.quotes || [])
     .filter(r => ALLOWED_TYPES.includes(r.quoteType))
