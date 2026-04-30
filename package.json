@@ -8,9 +8,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["portfolio", "simulator", "compound-interest", "investing"],
+  "author": "Raphaël Sourdis",
+  "license": "MIT",
   "type": "module",
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
