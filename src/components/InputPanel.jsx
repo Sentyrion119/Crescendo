@@ -1,7 +1,25 @@
+import { useState, useEffect } from 'react'
 import AssetSearch from './AssetSearch'
 import AssetList from './AssetList'
 
-function NumberInput({ label, value, onChange, min, step, suffix, hint }) {
+function NumberInput({ label, value, onChange, min = 0, suffix, hint }) {
+  const [local, setLocal] = useState(String(value))
+  const [focused, setFocused] = useState(false)
+
+  useEffect(() => {
+    if (!focused) setLocal(String(value))
+  }, [value, focused])
+
+  function handleBlur() {
+    setFocused(false)
+    const parsed = parseFloat(local.replace(',', '.'))
+    if (isNaN(parsed) || parsed < min) {
+      setLocal(String(value))
+    } else {
+      onChange(parsed)
+    }
+  }
+
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -9,11 +27,12 @@ function NumberInput({ label, value, onChange, min, step, suffix, hint }) {
       </label>
       <div className="flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden focus-within:border-emerald-500 transition-colors">
         <input
-          type="number"
-          value={value}
-          onChange={e => onChange(parseFloat(e.target.value) || 0)}
-          min={min}
-          step={step}
+          type="text"
+          inputMode="decimal"
+          value={local}
+          onChange={e => setLocal(e.target.value)}
+          onFocus={() => { setFocused(true); setLocal(String(value)) }}
+          onBlur={handleBlur}
           className="flex-1 bg-transparent px-3 py-2.5 text-white text-sm focus:outline-none"
         />
         {suffix && (
