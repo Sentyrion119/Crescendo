@@ -62,8 +62,8 @@ export async function searchAssets(query) {
 }
 
 export async function getAsset5YearCAGR(symbol) {
-  return cached(`cagr15y:${symbol}`, async () => {
-    const url = `${BASE}/v8/finance/chart/${symbol}?range=15y&interval=1mo`
+  return cached(`cagrMax:${symbol}`, async () => {
+    const url = `${BASE}/v8/finance/chart/${symbol}?range=max&interval=1mo`
     const res = await fetch(url)
     if (!res.ok) throw new Error(`Impossible de récupérer les données (${res.status})`)
     const data = await res.json()
